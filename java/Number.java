@@ -1,14 +1,17 @@
 public  class Number
 {
     private int num;
-    private int gridX;
-    private int gridY;
+    private GridPoint p;
     
-    public Number(int num, int gridX, int gridY)
+    public Number(int num, int x, int y)
+    {
+        this(num, new GridPoint(x, y));
+    }
+    
+    public Number(int num, GridPoint p)
     {
         this.num = num;
-        this.gridX = gridX;
-        this.gridY = gridY;
+        this.p = p;
     }
 
     public int getNum()
@@ -16,13 +19,26 @@ public  class Number
         return num;
     }
 
-    public int getGridX()
+    public int getX()
     {
-        return gridX;
+        return p.getX();
     }
 
-    public int getGridY()
+    public int getY()
     {
-        return gridY;
+        return p.getY();
+    }
+
+    public GridPoint getPoint()
+    {
+        return p;
+    }
+
+    @Override
+    public String toString()
+    {
+        String str = String.format("num=%d, %s", num, p);
+
+        return str;
     }
 }

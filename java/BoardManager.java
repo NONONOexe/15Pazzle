@@ -4,22 +4,24 @@ import java.util.List;
 
 public class BoardManager
 {
-    private int row;
     private int col;
+    private int row;
     private int size;
     private List<Number> board;
     
-    public BoardManager(int row, int col)
+    public BoardManager(int col, int row)
     {
-        this.row = row;
         this.col = col;
+        this.row = row;
         this.size = row * col;
-        this.board = new ArrayList<Number>(size);
+        this.board = new ArrayList<>(size);
+
+        initialize();
     }
 
     public void initialize()
     {
-        List<Integer> numbers = new ArrayList<Integer>(size);
+        List<Integer> numbers = new ArrayList<>(size);
         
         for(int num = 1; num <= size; num++)
         {
@@ -40,7 +42,7 @@ public class BoardManager
         
     }
 
-    public int toLinear(int x, int y)
+    private int toLinear(int x, int y)
     {
         return x * col + y;
     }
