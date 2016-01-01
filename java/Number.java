@@ -2,12 +2,12 @@ public  class Number
 {
     private int num;
     private GridPoint p;
-    
+
     public Number(int num, int x, int y)
     {
         this(num, new GridPoint(x, y));
     }
-    
+
     public Number(int num, GridPoint p)
     {
         this.num = num;
@@ -32,6 +32,11 @@ public  class Number
     public GridPoint getPoint()
     {
         return p;
+    }
+
+    public void setPoint(GridPoint p)
+    {
+       this.p = p;
     }
 
     @Override
