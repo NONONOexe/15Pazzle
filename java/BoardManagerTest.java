@@ -21,12 +21,25 @@ final class BoardManagerTest
         BoardManager bm = new BoardManager(col, row, blankPosition);
 
         bm.show();
-        System.out.println("====Swapping_Test====");
+        System.out.println("====SwapTest====");
         System.out.printf("swap (0, 0) and (%d, %d)\n", col - 1, row - 1);
         bm.swap(0, 0, col - 1, row - 1);
         bm.show();
         System.out.printf("swap num 1 and num %d\n", col * row);
         bm.swap(1, col * row);
+        bm.show();
+        System.out.println("====MoveTest====");
+        System.out.println("MoveUp");
+        bm.moveUp();
+        bm.show();
+        System.out.println("MoveDown");
+        bm.moveDown();
+        bm.show();
+        System.out.println("MoveLeft");
+        bm.moveLeft();
+        bm.show();
+        System.out.println("MoveRight");
+        bm.moveRight();
         bm.show();
     }
 }

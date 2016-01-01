@@ -75,7 +75,10 @@ public class BoardManager
                 int index = toLinear(gridX, gridY);
                 int num = board.get(index).getNum();
 
-                output += String.format("%3d", num);
+                if(num != col * row)
+                    output += String.format("%3d", num);
+                else
+                    output += "   ";
             }
             output += "\n";
         }
@@ -153,7 +156,51 @@ public class BoardManager
         }
         else
         {
-            System.out.println("Can't move up!")
+            System.out.println("Can't move up!");
+        }
+    }
+
+    public void moveDown()
+    {
+        int brankIndex = indexOf(col * row);
+        int upperIndex = brankIndex - col;
+
+        if(-1 <upperIndex)
+        {
+            swapIndex(brankIndex, upperIndex);
+        }
+        else
+        {
+            System.out.println("Can't move down!");
+        }
+    }
+
+    public void moveLeft()
+    {
+        int brankIndex = indexOf(col * row);
+        int rightIndex = brankIndex + 1;
+
+        if(rightIndex % col != 0)
+        {
+            swapIndex(brankIndex, rightIndex);
+        }
+        else
+        {
+            System.out.println("Can't move left!");
+        }
+    }
+    public void moveRight()
+    {
+        int brankIndex = indexOf(col * row);
+        int leftIndex = brankIndex - 1;
+
+        if((leftIndex + 1) % col != 0)
+        {
+            swapIndex(brankIndex, leftIndex);
+        }
+        else
+        {
+            System.out.println("Can't move right!");
         }
     }
 }
