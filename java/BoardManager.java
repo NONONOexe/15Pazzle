@@ -137,13 +137,13 @@ public class BoardManager
         swap(new GridPoint(x1, y1), new GridPoint(x2, y2));
     }
 
-    public void swap(int num1, int num2)
-    {
-        int indexA = indexOf(num1);
-        int indexB = indexOf(num2);
-
-        swapIndex(indexA, indexB);
-    }
+    // public void swap(int num1, int num2)
+    // {
+    //     int indexA = indexOf(num1);
+    //     int indexB = indexOf(num2);
+    //
+    //     swapIndex(indexA, indexB);
+    // }
 
     public void moveUp()
     {
@@ -202,5 +202,37 @@ public class BoardManager
         {
             System.out.println("Can't move right!");
         }
+    }
+
+    public void move(Direction d)
+    {
+        if(d == null)
+            return;
+        if(d.getName().equals("UP"))
+        {
+            moveUp();
+        }
+        if(d.getName().equals("DOWN"))
+        {
+            moveDown();
+        }
+        if(d.getName().equals("LEFT"))
+        {
+            moveLeft();
+        }
+        if(d.getName().equals("RIGHT"))
+        {
+            moveRight();
+        }
+    }
+
+    public boolean isGameOver()
+    {
+        for(Number number : board)
+        {
+            if(number.getNum() - 1 != board.indexOf(number))
+                return false;
+        }
+        return true;
     }
 }

@@ -1,38 +1,48 @@
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class Player
 {
-    // derections
-    public static final int UP      = 1;
-    public static final int DOWN    = 2;
-    public static final int LEFT    = 3;
-    public static final int RIGHT   = 4;
+    private BoardManager bm;
 
-    public int getInputDirection() throws IOException
+    public Player(BoardManager bm)
+    {
+        this.bm = bm;
+    }
+
+    private Direction getInputDirection()
     {
         InputStreamReader isr = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(isr);
-        String str = br.readLine();
+        String input = null;
+        Direction d = null;
 
-        if(str.equals("w"))
+        try
         {
-            return UP;
+            input = br.readLine();
         }
-        else if(str.equals("s"))
+        catch(IOException ioe)
         {
-            return DOWN;
+            System.err.println("Input Error!");
         }
-        else if(str.equals("a"))
+        d = Direction.getDirection(input);
+        if(d == null)
         {
-            return LEFT;
-        }
-        else if(str.equals("d"))
-        {
-            return RIGHT;
+            String msg = "UP:w, DOWN:s, LEFT:a, RIGHT:d";
+            System.out.println(msg);
         }
 
-        return -1;
+        return d;
+    }
+
+    public void play()
+    {
+        while(!bm.isGameOver())
+        {
+            bm.move(getInputDirection());
+            bm.show();
+        }
     }
 }

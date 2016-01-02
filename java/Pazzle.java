@@ -1,4 +1,4 @@
-final class BoardManagerTest
+public final class Pazzle
 {
     public static final String description
         = "java BoardManager <col> <row> <blankPosition>\n"
@@ -19,27 +19,9 @@ final class BoardManagerTest
         int blankPosition = (args.length == 3) ?
             Integer.parseInt(args[2]) : 0;
         BoardManager bm = new BoardManager(col, row, blankPosition);
+        Player player = new Player(bm);
 
         bm.show();
-        System.out.println("====SwapTest====");
-        System.out.printf("swap (0, 0) and (%d, %d)\n", col - 1, row - 1);
-        bm.swap(0, 0, col - 1, row - 1);
-        bm.show();
-        System.out.printf("swap num 1 and num %d\n", col * row);
-        bm.swap(1, col * row);
-        bm.show();
-        System.out.println("====MoveTest====");
-        System.out.println("MoveUp");
-        bm.moveUp();
-        bm.show();
-        System.out.println("MoveDown");
-        bm.moveDown();
-        bm.show();
-        System.out.println("MoveLeft");
-        bm.moveLeft();
-        bm.show();
-        System.out.println("MoveRight");
-        bm.moveRight();
-        bm.show();
+        player.play();
     }
 }
