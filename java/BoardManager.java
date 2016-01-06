@@ -1,88 +1,78 @@
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class BoardManager
 {
-    private int col;
-    private int row;
+    private int cols;
+    private int rows;
     private int size;
-    private List<Number> board;
+    private ArrayList<Number> board;
 
     public static final int FREE = 0;
     public static final int LOWER_RIGHT = 1;
 
-    public BoardManager(int col, int row)
+    public BoardManager(int cols, int rows)
     {
-        this.col = col;
-        this.row = row;
-        this.size = row * col;
+        this.cols = cols;
+        this.rows = rows;
+        this.size = rows * cols;
         this.board = new ArrayList<>(size);
         initialize();
     }
 
-    public BoardManager(int col, int row, int brankPosition)
+    public BoardManager(int cols, int rows, int brankPosition)
     {
-        this(col, row);
+        this(cols, rows);
         if(brankPosition == LOWER_RIGHT)
         {
-            int brankIndex = indexOf(col * row);
-            int rowerrightIndex = toLinear(col - 1, row - 1);
+            int brankIndex = indexOf(size);
+            int rowerrightIndex = toLinear(cols - 1, rows - 1);
             swapIndex(brankIndex, rowerrightIndex);
-            // DEBUG
-            // System.out.println("brankIndex = " + brankIndex);
-            // System.out.println("rowerrightIndex = " + rowerrightIndex);
         }
     }
 
     public void initialize()
     {
-        List<Integer> numbers = new ArrayList<>(size);
-
+        ArrayList<Integer> numbers = new ArrayList<>(size);
         for(int num = 1; num <= size; num++)
         {
             numbers.add(num);
         }
         Collections.shuffle(numbers);
-        for(int gridX = 0; gridX < col; gridX++)
+        for(int row = 0; row < rows; row++)
         {
-            for(int gridY = 0; gridY < row; gridY++)
+            for(int col = 0; col < cols; col++)
             {
-                int index = toLinear(gridX, gridY);
+                int index = toLinear(col, row);
                 int num = numbers.get(index);
-                Number number = new Number(num, gridX, gridY);
-
+                Number number = new Number(num, col, row);
                 board.add(number);
             }
         }
-
     }
 
-    private int toLinear(int x, int y)
+    public int toLinear(int col, int row)
     {
-        return x * col + y;
+        return row * cols + col;
     }
 
     @Override
     public String toString()
     {
         String output = "";
-
-        for(int gridX = 0; gridX < col; gridX++)
+        for(int row = 0; row < rows; row++)
         {
-            for(int gridY = 0; gridY < row; gridY++)
+            for(int col = 0; col < cols; col++)
             {
-                int index = toLinear(gridX, gridY);
+                int index = toLinear(col, row);
                 int num = board.get(index).getNum();
-
-                if(num != col * row)
+                if(num != size)
                     output += String.format("%3d", num);
                 else
                     output += "   ";
             }
             output += "\n";
         }
-
         return output;
     }
 
@@ -98,7 +88,6 @@ public class BoardManager
             if(number.getNum() == num)
                 return board.indexOf(number);
         }
-
         return -1;
     }
 
@@ -106,29 +95,16 @@ public class BoardManager
     {
         Number a = board.get(indexA);
         Number b = board.get(indexB);
-
         a.setPoint(b.getPoint());
         b.setPoint(a.getPoint());
         board.set(indexA, b);
         board.set(indexB, a);
     }
 
-    // public void swapElement(Number a, Number b)
-    // {
-    //     int indexA = board.indexOf(a);
-    //     int indexB = board.indexOf(b);
-    //
-    //     a.setPoint(b.getPoint());
-    //     b.setPoint(a.getPoint());
-    //     board.set(indexA, b);
-    //     board.set(indexB, a);
-    // }
-
     public void swap(GridPoint a, GridPoint b)
     {
         int indexA = toLinear(a.getX(), a.getY());
         int indexB = toLinear(b.getX(), b.getY());
-
         swapIndex(indexA, indexB);
     }
 
@@ -137,19 +113,10 @@ public class BoardManager
         swap(new GridPoint(x1, y1), new GridPoint(x2, y2));
     }
 
-    // public void swap(int num1, int num2)
-    // {
-    //     int indexA = indexOf(num1);
-    //     int indexB = indexOf(num2);
-    //
-    //     swapIndex(indexA, indexB);
-    // }
-
     public void moveUp()
     {
-        int brankIndex = indexOf(col * row);
-        int lowerIndex = brankIndex + col;
-
+        int brankIndex = indexOf(size);
+        int lowerIndex = brankIndex + cols;
         if(lowerIndex < board.size())
         {
             swapIndex(brankIndex, lowerIndex);
@@ -162,9 +129,8 @@ public class BoardManager
 
     public void moveDown()
     {
-        int brankIndex = indexOf(col * row);
-        int upperIndex = brankIndex - col;
-
+        int brankIndex = indexOf(size);
+        int upperIndex = brankIndex - cols;
         if(-1 <upperIndex)
         {
             swapIndex(brankIndex, upperIndex);
@@ -177,10 +143,9 @@ public class BoardManager
 
     public void moveLeft()
     {
-        int brankIndex = indexOf(col * row);
+        int brankIndex = indexOf(size);
         int rightIndex = brankIndex + 1;
-
-        if(rightIndex % col != 0)
+        if(rightIndex % cols != 0)
         {
             swapIndex(brankIndex, rightIndex);
         }
@@ -191,10 +156,9 @@ public class BoardManager
     }
     public void moveRight()
     {
-        int brankIndex = indexOf(col * row);
+        int brankIndex = indexOf(size);
         int leftIndex = brankIndex - 1;
-
-        if((leftIndex + 1) % col != 0)
+        if((leftIndex + 1) % cols != 0)
         {
             swapIndex(brankIndex, leftIndex);
         }
@@ -234,5 +198,25 @@ public class BoardManager
                 return false;
         }
         return true;
+    }
+
+    public int getCols()
+    {
+        return cols;
+    }
+
+    public int getRows()
+    {
+        return rows;
+    }
+
+    public int getSize()
+    {
+        return size;
+    }
+
+    public ArrayList<Number> getBoard()
+    {
+        return board;
     }
 }

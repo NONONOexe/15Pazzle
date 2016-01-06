@@ -18,7 +18,6 @@ public class Player
         BufferedReader br = new BufferedReader(isr);
         String input = null;
         Direction d = null;
-
         try
         {
             input = br.readLine();
@@ -27,22 +26,49 @@ public class Player
         {
             System.err.println("Input Error!");
         }
+        if(input.equals("q"))
+        {
+            System.exit(0);
+        }
         d = Direction.getDirection(input);
         if(d == null)
         {
-            String msg = "UP:w, DOWN:s, LEFT:a, RIGHT:d";
+            String msg = "UP:w, DOWN:s, LEFT:a, RIGHT:d, QUIT:q";
             System.out.println(msg);
         }
-
         return d;
+    }
+
+    private void turn()
+    {
+        bm.show();
+        bm.move(getInputDirection());
+    }
+
+    private void finish()
+    {
+        if(bm.isGameOver())
+            bm.show();
     }
 
     public void play()
     {
         while(!bm.isGameOver())
         {
-            bm.move(getInputDirection());
-            bm.show();
+            turn();
         }
+        finish();
+    }
+
+    public void playOnGUI(PuzzleGUI gui)
+    {
+        gui.start();
+        while(!bm.isGameOver())
+        {
+            turn();
+            gui.repaint();
+        }
+        finish();
+        gui.repaint();
     }
 }
